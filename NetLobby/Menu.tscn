@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://NetLobby/Menu.gd" type="Script" id=1]
-[ext_resource path="res://r_Standard/Font/VT323.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://r_Standard/Font/comic.ttf" type="DynamicFontData" id=2]
 
 [sub_resource type="DynamicFont" id=1]
 size = 48
@@ -20,24 +20,24 @@ __meta__ = {
 }
 
 [node name="Buttons" type="VBoxContainer" parent="."]
-margin_left = 916.0
-margin_top = 483.0
-margin_right = 1004.0
-margin_bottom = 597.0
+margin_left = 906.0
+margin_top = 470.0
+margin_right = 1015.0
+margin_bottom = 598.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Host" type="Button" parent="Buttons"]
-margin_right = 88.0
-margin_bottom = 55.0
+margin_right = 109.0
+margin_bottom = 62.0
 custom_fonts/font = SubResource( 1 )
 text = "Host"
 
 [node name="Join" type="Button" parent="Buttons"]
-margin_top = 59.0
-margin_right = 88.0
-margin_bottom = 114.0
+margin_top = 66.0
+margin_right = 109.0
+margin_bottom = 128.0
 custom_fonts/font = SubResource( 2 )
 text = "Join"
 [connection signal="pressed" from="Buttons/Host" to="." method="_on_Host_pressed"]
