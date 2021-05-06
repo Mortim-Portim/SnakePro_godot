@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://r_Standard/Images/UI/play.png" type="Texture" id=1]
 [ext_resource path="res://r_Standard/Images/UI/HOF_b.png" type="Texture" id=2]
@@ -10,14 +10,18 @@
 [ext_resource path="res://r_Standard/Images/UI/host.png" type="Texture" id=8]
 [ext_resource path="res://r_Standard/Font/comic.ttf" type="DynamicFontData" id=9]
 
-[sub_resource type="StyleBoxEmpty" id=3]
+[sub_resource type="StyleBoxEmpty" id=1]
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=3]
 size = 64
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 9 )
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="StyleBoxEmpty" id=5]
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
@@ -48,7 +52,6 @@ margin_right = 298.747
 margin_bottom = 329.862
 rect_scale = Vector2( 0.230434, 0.230434 )
 __meta__ = {
-"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
@@ -88,13 +91,13 @@ TilesX = 10.0
 ScreenW = 480.0
 
 [node name="IpAddr" type="LineEdit" parent="."]
-margin_left = 1031.0
+margin_left = 973.0
 margin_top = 172.0
-margin_right = 1515.0
-margin_bottom = 256.0
-custom_styles/focus = SubResource( 3 )
+margin_right = 1504.0
+margin_bottom = 246.0
+custom_styles/focus = SubResource( 1 )
 custom_styles/normal = SubResource( 2 )
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "192.168.987.721"
 align = 2
@@ -107,16 +110,17 @@ __meta__ = {
 }
 
 [node name="Port" type="LineEdit" parent="."]
-margin_left = 1561.0
+margin_left = 1545.0
 margin_top = 172.0
-margin_right = 1752.0
-margin_bottom = 256.0
-custom_styles/focus = SubResource( 3 )
-custom_styles/normal = SubResource( 2 )
-custom_fonts/font = SubResource( 1 )
+margin_right = 1857.0
+margin_bottom = 246.0
+focus_neighbour_left = NodePath("../IpAddr")
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "8080"
-max_length = 20
+max_length = 4
 placeholder_text = "Ip-Address"
 placeholder_alpha = 0.644
 caret_blink = true
