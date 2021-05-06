@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/1.wav-c6321638d00a9b3e1a3a6eff4e557500.sample"
+
+[deps]
+
+source_file="res://r_Standard/Sounds/Eating_Rotten/1.wav"
+dest_files=[ "res://.import/1.wav-c6321638d00a9b3e1a3a6eff4e557500.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

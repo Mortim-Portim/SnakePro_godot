@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/1.wav-cceeff93f10a717e25b809db6ccc1d16.sample"
+
+[deps]
+
+source_file="res://r_Standard/Sounds/Farting/1.wav"
+dest_files=[ "res://.import/1.wav-cceeff93f10a717e25b809db6ccc1d16.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

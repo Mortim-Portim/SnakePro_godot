@@ -1,0 +1,15 @@
+Exit_X:         19
+Exit_Y:         2
+Play_X:         19
+Play_Y:         3
+Con_X:          19
+Con_Y:          5
+PLN_XPOS:       0.36
+PLN_YPOS:       0.42
+PLN_WIDTH:      0.3
+PLN_HEIGHT:     0.32
+Win_Head_S:     0.2
+Win_Head_Pos_X: 0.1
+Win_Head_Rot:   180.0
+HOF_X:          19
+HOF_Y:          4
