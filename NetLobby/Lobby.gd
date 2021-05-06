@@ -64,8 +64,9 @@ func _on_connected_to_server():
 
 func _on_server_disconnected():
 	emit_signal("backToMenu")
-	get_tree().network_peer.close_connection()
-	get_tree().set_network_peer(null)
+	if get_tree().network_peer != null:
+		get_tree().network_peer.close_connection()
+		get_tree().set_network_peer(null)
 
 func load_game():
 	emit_signal("initGame")

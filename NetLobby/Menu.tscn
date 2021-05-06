@@ -3,8 +3,6 @@
 [ext_resource path="res://NetLobby/Menu.gd" type="Script" id=1]
 [ext_resource path="res://NetLobby/VT323.ttf" type="DynamicFontData" id=2]
 
-
-
 [sub_resource type="DynamicFont" id=1]
 size = 48
 font_data = ExtResource( 2 )

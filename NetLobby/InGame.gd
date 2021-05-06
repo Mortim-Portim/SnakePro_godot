@@ -25,7 +25,7 @@ func _on_Lobby_backToMenu():
 
 func spawn_player(id):
 	print("spawn_player: ", id)
-	var player = load("res://Player.tscn").instance()
+	var player = load("res://NetLobby/Player.tscn").instance()
 	player.name = str(id)
 	player.set_network_master(id)
 	$GameView/Spawn.add_child(player)
