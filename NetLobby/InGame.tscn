@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Menu.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Lobby.tscn" type="PackedScene" id=2]
+[ext_resource path="res://InGame.gd" type="Script" id=3]
+[ext_resource path="res://VT323.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 48
+font_data = ExtResource( 4 )
+
+[node name="InGame" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="GameView" type="Camera2D" parent="."]
+position = Vector2( 960, 540 )
+current = true
+
+[node name="Spawn" type="Position2D" parent="GameView"]
+
+[node name="Menu" parent="." instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+
+[node name="Lobby" parent="." instance=ExtResource( 2 )]
+
+[node name="Disconnect" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 1718.0
+margin_top = 1025.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+custom_fonts/font = SubResource( 1 )
+text = "Disconnect"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="Host" from="Menu" to="Lobby" method="create_server"]
+[connection signal="Join" from="Menu" to="Lobby" method="join_server"]
+[connection signal="allReady" from="Lobby" to="." method="_on_Lobby_allReady"]
+[connection signal="backToMenu" from="Lobby" to="." method="_on_Lobby_backToMenu"]
+[connection signal="despawn_player" from="Lobby" to="." method="despawn_player"]
+[connection signal="initGame" from="Lobby" to="." method="_on_Lobby_initGame"]
+[connection signal="lobbyStarting" from="Lobby" to="." method="_on_Lobby_lobbyStarting"]
+[connection signal="spawn_player" from="Lobby" to="." method="spawn_player"]
+[connection signal="pressed" from="Disconnect" to="Lobby" method="_on_server_disconnected"]
