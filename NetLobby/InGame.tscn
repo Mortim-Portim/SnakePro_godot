@@ -38,6 +38,7 @@ text = "Disconnect"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="Host" from="Menu" to="Lobby" method="create_server"]
 [connection signal="Join" from="Menu" to="Lobby" method="join_server"]
 [connection signal="allReady" from="Lobby" to="." method="_on_Lobby_allReady"]

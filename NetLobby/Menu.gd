@@ -1,7 +1,7 @@
 extends Control
 
 signal Host()
-signal Join()
+signal Join(Name)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,4 +14,4 @@ func _on_Host_pressed():
 
 
 func _on_Join_pressed():
-	emit_signal("Join")
+	emit_signal("Join", $Buttons/Name.get_text())

@@ -38,8 +38,9 @@ func create_server(port = 8080):
 	emit_signal("lobbyStarting", isServer)
 	load_game()
 
-func join_server(ip = "127.0.0.1", port = 8080):
+func join_server(name, ip = "127.0.0.1", port = 8080):
 	isServer = false
+	playerName = name
 	var peer = NetworkedMultiplayerENet.new()
 	var err = peer.create_client(ip, port)
 	if err != OK:
@@ -54,6 +55,7 @@ func _on_network_peer_connected(id):
 		get_tree().network_peer.disconnect_peer(id)
 	elif id != 1:
 		addName(id, str(id))
+		rpc("setName", netID, playerName)
 
 func _on_network_peer_disconnected(id):
 	if id != 1:
@@ -86,6 +88,11 @@ func addName(id, name):
 	Name.name = "Label_"+str(id)
 	Name.text = name
 	$Names.add_child(Name)
+
+remotesync func setName(id, name):
+	for n in $Names.get_children():
+		if n.name == "Label_"+str(id):
+			n.text = name
 
 func remName(id):
 	emit_signal("despawn_player", id)

@@ -18,6 +18,7 @@ visible = false
 
 [node name="InGame" parent="." instance=ExtResource( 5 )]
 visible = false
+
 [connection signal="hof" from="Menu" to="." method="_on_Menu_hof"]
 [connection signal="play" from="Menu" to="." method="_on_Menu_play"]
 [connection signal="quit" from="Menu" to="." method="_on_Menu_quit"]

@@ -1,13 +1,20 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://NetLobby/Menu.gd" type="Script" id=1]
 [ext_resource path="res://r_Standard/Font/comic.ttf" type="DynamicFontData" id=2]
 
-[sub_resource type="DynamicFont" id=1]
-size = 48
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="DynamicFont" id=5]
+size = 64
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=2]
+size = 48
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
 size = 48
 font_data = ExtResource( 2 )
 
@@ -20,25 +27,37 @@ __meta__ = {
 }
 
 [node name="Buttons" type="VBoxContainer" parent="."]
-margin_left = 906.0
-margin_top = 470.0
-margin_right = 1015.0
-margin_bottom = 598.0
+margin_left = 876.0
+margin_top = 443.621
+margin_right = 1044.0
+margin_bottom = 649.621
 __meta__ = {
+"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
+[node name="Name" type="LineEdit" parent="Buttons"]
+margin_right = 168.0
+margin_bottom = 74.0
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
+text = "Name"
+max_length = 20
+placeholder_text = "Name"
+
 [node name="Host" type="Button" parent="Buttons"]
-margin_right = 109.0
-margin_bottom = 62.0
-custom_fonts/font = SubResource( 1 )
+margin_top = 78.0
+margin_right = 168.0
+margin_bottom = 140.0
+custom_fonts/font = SubResource( 2 )
 text = "Host"
 
 [node name="Join" type="Button" parent="Buttons"]
-margin_top = 66.0
-margin_right = 109.0
-margin_bottom = 128.0
-custom_fonts/font = SubResource( 2 )
+margin_top = 144.0
+margin_right = 168.0
+margin_bottom = 206.0
+custom_fonts/font = SubResource( 3 )
 text = "Join"
+
 [connection signal="pressed" from="Buttons/Host" to="." method="_on_Host_pressed"]
 [connection signal="pressed" from="Buttons/Join" to="." method="_on_Join_pressed"]
