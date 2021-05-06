@@ -8,7 +8,7 @@ signal allReady()
 signal initGame()
 
 var isServer = false
-var netID = 1
+var netID = -1
 var accepting_new_player = true
 var playerName = ""
 
@@ -19,6 +19,13 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_on_connected_to_server")
 	get_tree().connect("server_disconnected", self, "_on_server_disconnected")
 	get_tree().connect("connection_failed", self, "_on_server_disconnected")
+
+func reset_net():
+	reset_labels()
+	isServer = false
+	netID = -1
+	accepting_new_player = true
+	playerName = ""
 
 func reset_labels():
 	for label in $Names.get_children():
@@ -51,11 +58,14 @@ func join_server(name, ip = "127.0.0.1", port = 8080):
 	emit_signal("lobbyStarting", isServer)
 
 func _on_network_peer_connected(id):
+	print(netID, ": new connection: ", id)
 	if !accepting_new_player:
 		get_tree().network_peer.disconnect_peer(id)
-	elif id != 1:
-		addName(id, str(id))
-		rpc("setName", netID, playerName)
+	else:
+		if id != 1:
+			addName(id, str(id))
+		if netID > 1:
+			rpc("setName", netID, playerName)
 
 func _on_network_peer_disconnected(id):
 	if id != 1:
@@ -66,23 +76,28 @@ func _on_connected_to_server():
 
 func _on_server_disconnected():
 	emit_signal("backToMenu")
+	print("disconnecting")
+	reset_net()
 	if get_tree().network_peer != null:
 		get_tree().network_peer.close_connection()
 		get_tree().set_network_peer(null)
 
 func load_game():
 	emit_signal("initGame")
-	reset_labels()
 	if not get_tree().is_network_server():
 		netID = get_tree().get_network_unique_id()
 		if playerName == "":
 			playerName = str(netID)
 		addName(netID, playerName)
+		rpc("setName", netID, playerName)
+	else:
+		netID = 1
 
 func _on_Button_pressed():
 	rpc("startGame")
 
 func addName(id, name):
+	print("adding: ", id, ", name: ", name)
 	emit_signal("spawn_player", id)
 	var Name = $Names/inLobby.duplicate()
 	Name.name = "Label_"+str(id)
@@ -90,16 +105,20 @@ func addName(id, name):
 	$Names.add_child(Name)
 
 remotesync func setName(id, name):
+	print("setting: ", id, ", name: ", name)
+	var found = false
 	for n in $Names.get_children():
 		if n.name == "Label_"+str(id):
 			n.text = name
+			found = true
+	if !found:
+		addName(id, name)
 
 func remName(id):
 	emit_signal("despawn_player", id)
-	var label = get_tree().get_root().find_node("Label_"+str(id), true, false)
-	if label != null:
-		label.queue_free()
-	
+	for n in $Names.get_children():
+		if n.name == "Label_"+str(id):
+			n.queue_free()
 
 remotesync func startGame():
 	emit_signal("allReady")

@@ -10,13 +10,12 @@ config_version=4
 
 _global_script_classes=[  ]
 _global_script_class_icons={
-
 }
 
 [application]
 
 config/name="SnakePro"
-run/main_scene="res://Scenes/Main.tscn"
+run/main_scene="res://NetLobby/InGame.tscn"
 config/icon="res://r_Standard/Icons/256.png"
 
 [display]
