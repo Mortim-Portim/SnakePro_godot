@@ -103,6 +103,7 @@ func addName(id, name):
 	Name.name = "Label_"+str(id)
 	Name.text = name
 	$Names.add_child(Name)
+	sortNames()
 
 remotesync func setName(id, name):
 	print("setting: ", id, ", name: ", name)
@@ -111,6 +112,7 @@ remotesync func setName(id, name):
 		if n.name == "Label_"+str(id):
 			n.text = name
 			found = true
+			sortNames()
 	if !found:
 		addName(id, name)
 
@@ -119,6 +121,16 @@ func remName(id):
 	for n in $Names.get_children():
 		if n.name == "Label_"+str(id):
 			n.queue_free()
+
+func sortNames():
+	var childs = $Names.get_children()
+	var names = []
+	for c in childs:
+		names.append(c.name)
+	names.sort()
+	for n in names:
+		$Names.move_child($Names.get_node(n), 0)
+	$Names.move_child($Names/inLobby, 0)
 
 remotesync func startGame():
 	emit_signal("allReady")
