@@ -11,18 +11,18 @@ var timePassed = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$SnakeArena.followID = "0"
-	$SnakeArena.TilesX = TilesX
-	$SnakeArena.ScreenW = ScreenW
-	$SnakeArena.ScreenH = ScreenH
-	$SnakeArena.reset()
-	var middle = $SnakeArena.get_bounds()*0.5
+	$SnakeDrawer.followID = "0"
+	$SnakeDrawer.TilesX = TilesX
+	$SnakeDrawer.ScreenW = ScreenW
+	$SnakeDrawer.ScreenH = ScreenH
+	$SnakeDrawer.reset()
+	var middle = $SnakeDrawer.get_bounds()*0.5
 	for i in range(8):
 		$ArenaOutline/Spawns.set_unit_offset(float(i)/8.0)
 		var nSnake = Snake.instance()
 		nSnake.idx = i%4
 		nSnake.set_name(str(i+2))
-		nSnake.startPos = $SnakeArena.put_in_bounds($SnakeArena.world_to_tile($ArenaOutline/Spawns.get_position()))
+		nSnake.startPos = $SnakeDrawer.put_in_bounds($SnakeDrawer.world_to_tile($ArenaOutline/Spawns.get_position()))
 		nSnake.startDir = nSnake.dir_to_point(nSnake.startPos, middle)
 		nSnake.reset()
 		snakes.append(nSnake)
@@ -42,4 +42,4 @@ func _process(delta):
 		timePassed = 0
 		for snake in snakes:
 			snake.move()
-		$SnakeArena.redraw(snakes)
+		$SnakeDrawer.redraw(snakes)

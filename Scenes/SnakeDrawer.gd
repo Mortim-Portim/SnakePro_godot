@@ -140,10 +140,5 @@ func save():
 		"filename" : 		get_filename(),
 		"TilesX" : 			TilesX,
 		"TilesY" : 			TilesY,
-		"ScreenW" : 		ScreenW,
-		"ScreenH" : 		ScreenH,
-		"followID" : 		followID,
-		"CellBounds.x" : 	CellBounds.x,
-		"CellBounds.y" : 	CellBounds.y,
 	}
 	return save_dict

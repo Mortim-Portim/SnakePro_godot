@@ -6,7 +6,7 @@
 [ext_resource path="res://r_Standard/Images/UI/WinBack.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Menu.gd" type="Script" id=5]
 [ext_resource path="res://r_Standard/Images/UI/controller.png" type="Texture" id=6]
-[ext_resource path="res://Scenes/SnakeArena.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/SnakeDrawer.tscn" type="PackedScene" id=7]
 [ext_resource path="res://r_Standard/Images/UI/host.png" type="Texture" id=8]
 [ext_resource path="res://r_Standard/Font/comic.ttf" type="DynamicFontData" id=9]
 
@@ -84,7 +84,7 @@ margin_right = 400.0
 margin_bottom = 2016.0
 texture_normal = ExtResource( 6 )
 
-[node name="SnakeArena" parent="." instance=ExtResource( 7 )]
+[node name="SnakeDrawer" parent="." instance=ExtResource( 7 )]
 visible = false
 position = Vector2( 498.366, 462.498 )
 TilesX = 10.0
@@ -127,6 +127,7 @@ caret_blink = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_Play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Host" to="." method="_on_Host_pressed"]
 [connection signal="pressed" from="VBoxContainer/HallOfFame" to="." method="_on_HallOfFame_pressed"]
