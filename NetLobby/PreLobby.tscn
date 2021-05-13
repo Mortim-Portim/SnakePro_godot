@@ -52,3 +52,9 @@ text = "Join"
 [node name="Lobby" parent="." instance=ExtResource( 3 )]
 
 [connection signal="pressed" from="Buttons/Join" to="." method="_on_Join_pressed"]
+[connection signal="allReady" from="Lobby" to="." method="_on_Lobby_allReady"]
+[connection signal="backToMenu" from="Lobby" to="." method="_on_Lobby_backToMenu"]
+[connection signal="despawn_player" from="Lobby" to="." method="despawn_player"]
+[connection signal="initGame" from="Lobby" to="." method="_on_Lobby_initGame"]
+[connection signal="lobbyStarting" from="Lobby" to="." method="_on_Lobby_lobbyStarting"]
+[connection signal="spawn_player" from="Lobby" to="." method="spawn_player"]

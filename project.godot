@@ -15,7 +15,7 @@ _global_script_class_icons={
 [application]
 
 config/name="SnakePro"
-run/main_scene="res://NetLobby/InGame.tscn"
+run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://r_Standard/Icons/256.png"
 
 [display]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://r_Standard/Images/UI/play.png" type="Texture" id=1]
 [ext_resource path="res://r_Standard/Images/UI/HOF_b.png" type="Texture" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://r_Standard/Images/UI/WinBack.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Menu.gd" type="Script" id=5]
 [ext_resource path="res://r_Standard/Images/UI/controller.png" type="Texture" id=6]
-[ext_resource path="res://Scenes/SnakeDrawer.tscn" type="PackedScene" id=7]
 [ext_resource path="res://r_Standard/Images/UI/host.png" type="Texture" id=8]
 [ext_resource path="res://r_Standard/Font/comic.ttf" type="DynamicFontData" id=9]
 
@@ -84,12 +83,6 @@ margin_right = 400.0
 margin_bottom = 2016.0
 texture_normal = ExtResource( 6 )
 
-[node name="SnakeDrawer" parent="." instance=ExtResource( 7 )]
-visible = false
-position = Vector2( 498.366, 462.498 )
-TilesX = 10.0
-ScreenW = 480.0
-
 [node name="IpAddr" type="LineEdit" parent="."]
 margin_left = 973.0
 margin_top = 172.0
@@ -99,10 +92,10 @@ custom_styles/focus = SubResource( 1 )
 custom_styles/normal = SubResource( 2 )
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "192.168.987.721"
+text = "127.0.0.1"
 align = 2
 max_length = 20
-placeholder_text = "Ip-Address"
+placeholder_text = "IP-Address"
 placeholder_alpha = 0.644
 caret_blink = true
 __meta__ = {
@@ -121,15 +114,28 @@ custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "8080"
 max_length = 4
-placeholder_text = "Ip-Address"
+placeholder_text = "Port"
 placeholder_alpha = 0.644
 caret_blink = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -35.0
+margin_right = 100.0
+margin_bottom = 35.0
+mouse_filter = 2
+dialog_text = "Quit Game?"
+
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_Play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Host" to="." method="_on_Host_pressed"]
 [connection signal="pressed" from="VBoxContainer/HallOfFame" to="." method="_on_HallOfFame_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_Quit_pressed"]
 [connection signal="pressed" from="VBoxContainer/Controller" to="." method="_on_Controller_pressed"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_ConfirmationDialog_confirmed"]

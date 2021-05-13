@@ -45,4 +45,3 @@ __meta__ = {
 [connection signal="initGame" from="Lobby" to="." method="_on_Lobby_initGame"]
 [connection signal="lobbyStarting" from="Lobby" to="." method="_on_Lobby_lobbyStarting"]
 [connection signal="spawn_player" from="Lobby" to="." method="spawn_player"]
-[connection signal="pressed" from="Disconnect" to="Lobby" method="_on_server_disconnected"]

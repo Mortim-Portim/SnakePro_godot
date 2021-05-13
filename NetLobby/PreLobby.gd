@@ -16,39 +16,38 @@ var players = []
 func _ready():
 	reset()
 
-func _on_Join_pressed():
-	if active:
-		$Lobby.join_server($Buttons/Name.get_text(), ipAddr, port)
-		deactivate()
-
 func host(port = 8080):
-	$Lobby.create_server(port)
 	deactivate()
+	$Lobby.create_server(port)
 
 func join(ip = "127.0.0.1", p = 8080):
 	ipAddr = ip
 	port = p
 	activate()
 
+func _on_Join_pressed():
+	if active:
+		$Lobby.join_server($Buttons/Name.get_text(), ipAddr, port)
+		deactivate()
+
 func _on_Lobby_backToMenu():
 	emit_signal("backToMenu")
 	reset()
 
 func spawn_player(id):
-	pass
-#	var player = load("res://NetLobby/Player.tscn").instance()
-#	player.name = str(id)
-#	player.set_network_master(id)
-#	$GameView/Spawn.add_child(player)
-#	yield(get_tree(), "idle_frame")
-#	player.set_master(player.is_network_master())
+	var player = load("res://NetLobby/Player.tscn").instance()
+	player.name = str(id)
+	player.set_network_master(id)
+	
+	players.append(player)
+	
+	yield(get_tree(), "idle_frame")
+	player.set_master(player.is_network_master())
 
 func despawn_player(id):
-	pass
-#	var player = get_tree().get_root().find_node(str(id), true, false)
-#	if player != null:
-#		player.queue_free()
-
+	for player in players:
+		if player.name == str(id):
+			player.queue_free()
 
 func _on_Lobby_lobbyStarting(isServer):
 	$Lobby.set_visible(true)
@@ -62,12 +61,12 @@ func _on_Lobby_initGame():
 
 func activate():
 	active = true
-	set_visible(true)
+	$Buttons.set_visible(true)
 	$Buttons/Name.set_text("Name")
 
 func deactivate():
 	active = false
-	set_visible(false)
+	$Buttons.set_visible(false)
 	ipAddr = ""
 	port = 0
 

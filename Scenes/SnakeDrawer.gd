@@ -130,7 +130,7 @@ func set_tile(idx, lastTile, tile, nextTile):
 				flipy = true
 	
 	if idx >= 0:
-		tileName += str(idx)
+		tileName += str(idx+1)
 	#print(tileName)
 	$TileMap.set_cell(tile.x, tile.y, $TileMap.tile_set.find_tile_by_name(tileName), flipx, flipy, transposed, Vector2.ZERO)
 

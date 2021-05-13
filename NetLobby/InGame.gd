@@ -13,12 +13,12 @@ func reset_spawn():
 #	pass
 
 func _on_Lobby_backToMenu():
-	print("_on_Lobby_backToMenu")
+	#print("_on_Lobby_backToMenu")
 	set_to_menu()
 	reset_spawn()
 
 func spawn_player(id):
-	print("spawn_player: ", id)
+	#print("spawn_player: ", id)
 	var player = load("res://NetLobby/Player.tscn").instance()
 	player.name = str(id)
 	player.set_network_master(id)
@@ -27,23 +27,24 @@ func spawn_player(id):
 	player.set_master(player.is_network_master())
 
 func despawn_player(id):
-	print("despawn_player: ", id)
+	#print("despawn_player: ", id)
 	var player = get_tree().get_root().find_node(str(id), true, false)
 	if player != null:
 		player.queue_free()
 
 
 func _on_Lobby_lobbyStarting(isServer):
-	print("_on_Lobby_lobbyStarting")
+	#print("_on_Lobby_lobbyStarting")
 	set_to_lobby()
 
 
 func _on_Lobby_allReady():
-	print("_on_Lobby_allReady")
+	#print("_on_Lobby_allReady")
 	set_to_game()
 
 func _on_Lobby_initGame():
-	print("_on_Lobby_initGame")
+	#print("_on_Lobby_initGame")
+	pass
 
 func set_to_game():
 	$Lobby.set_visible(false)

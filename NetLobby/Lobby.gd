@@ -46,12 +46,12 @@ func reset_labels():
 			label.queue_free()
 
 # hosts a server on the speciefied port
-func create_server(port = 8080):
+func create_server(port = "8080"):
 	isServer = true
 	var peer = NetworkedMultiplayerENet.new()
-	var err = peer.create_server(port, 32)
+	var err = peer.create_server(int(port), 32)
 	if err != OK:
-		print(err)
+		print("error while creating server: ", err)
 		return
 	get_tree().set_network_peer(peer)
 	accepting_new_player = true
@@ -59,13 +59,14 @@ func create_server(port = 8080):
 	emit_signal("lobbyStarting", isServer)
 
 # joins a server and sets the player name
-func join_server(name, ip = "127.0.0.1", port = 8080):
+func join_server(name, ip = "127.0.0.1", port = "8080"):
+	#print("join_server: ", "ip: ", ip, ", port: ", str(int(port)))
 	isServer = false
 	playerName = name
 	var peer = NetworkedMultiplayerENet.new()
-	var err = peer.create_client(ip, port)
+	var err = peer.create_client(ip, int(port))
 	if err != OK:
-		print(err)
+		print("error while joining server: ", err)
 		return
 	get_tree().set_network_peer(peer)
 	accepting_new_player = true
@@ -73,7 +74,7 @@ func join_server(name, ip = "127.0.0.1", port = 8080):
 
 # called when a new connection is established
 func _on_network_peer_connected(id):
-	print(netID, ": new connection: ", id)
+	#print(netID, ": new connection: ", id)
 	if !accepting_new_player:
 		# disconnect the newly connected peer
 		get_tree().network_peer.disconnect_peer(id)
@@ -96,8 +97,8 @@ func _on_connected_to_server():
 
 # called once disconnected from the server, resets this node
 func _on_server_disconnected():
+	#print("_on_server_disconnected")
 	emit_signal("backToMenu")
-	print("disconnecting")
 	reset_net()
 	if get_tree().network_peer != null:
 		get_tree().network_peer.close_connection()
@@ -121,7 +122,7 @@ func _on_Button_pressed():
 
 # adds a name label
 func addName(id, name):
-	print("adding: ", id, ", name: ", name)
+	#print("addName: ", id, ", name: ", name)
 	emit_signal("spawn_player", id)
 	var Name = $Names/inLobby.duplicate()
 	Name.name = "Label_"+str(id)
@@ -131,7 +132,7 @@ func addName(id, name):
 
 # sets or adds a name label on each peer
 remotesync func setName(id, name):
-	print("setting: ", id, ", name: ", name)
+	#print("setName: ", id, ", name: ", name)
 	var found = false
 	for n in $Names.get_children():
 		if n.name == "Label_"+str(id):
