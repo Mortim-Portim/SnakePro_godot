@@ -1,13 +1,11 @@
 extends Node2D
 
-export var updatePeriod = 0.5
 export var TilesX = 32.0
 export var TilesY = 32.0
 export var ScreenW = 1920.0
 
 var snakes = []
 var players = []
-var timePassed = 0.0
 
 func _ready():
 	pass
@@ -21,13 +19,12 @@ func stop_game():
 	set_visible(false)
 
 func reset(pls):
-	timePassed = 0.0
 	players = pls
-	snakes = []
 	for old_sn in $SnakeContainer.get_children():
 		$SnakeContainer.remove_child(old_sn)
-	for player in pls:
-		snakes.append(player.Snake)
+	snakes = []
+	for pl in pls:
+		snakes.append(pl.get_node("Snake"))
 	$SnakeDrawer.followID = "0"
 	$SnakeDrawer.TilesX = TilesX
 	$SnakeDrawer.TilesY = TilesY
@@ -37,22 +34,10 @@ func reset(pls):
 	var pl_num = players.size()
 	for i in range(pl_num):
 		$ArenaOutline/Spawns.set_unit_offset(float(i)/float(pl_num))
-		snakes[i].startPos = $SnakeDrawer.put_in_bounds($SnakeDrawer.world_to_tile($ArenaOutline/Spawns.get_position()))
-		snakes[i].startDir = snakes[i].dir_to_point(snakes[i].startPos, middle)
-		snakes[i].reset()
-		$SnakeContainer.add_child(snakes[i])
+		players[i].reset_snake($SnakeDrawer.put_in_bounds($SnakeDrawer.world_to_tile($ArenaOutline/Spawns.get_position())), middle)
+		players[i].snakeDrawer = get_node("SnakeDrawer")
+		$SnakeContainer.add_child(players[i])
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	timePassed += delta
-	
-	if Input.is_action_just_pressed("ui_left"):
-		snakes[int($SnakeDrawer.followID)].to_left()
-	if Input.is_action_just_pressed("ui_right"):
-		snakes[int($SnakeDrawer.followID)].to_right()
-	
-	if timePassed > updatePeriod:
-		timePassed = 0
-		for snake in snakes:
-			snake.move()
-		$SnakeDrawer.redraw(snakes)
+	pass
+	#$SnakeDrawer.redraw(snakes)

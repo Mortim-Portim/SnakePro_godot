@@ -21,16 +21,27 @@ func reset():
 	var cellS = (ScreenW * RelativeTileWidth) / CellSize_o
 	$TileMap.set_scale(Vector2(cellS,cellS))
 	$TileMap.clear()
+	for tm in $TileMapList.get_children():
+		tm.queue_free()
+		$TileMapList.remove_child(tm)
 
 # Returns the bounds of the tilemap
 func get_bounds():
 	return Vector2(TilesX, TilesY)
 
+func check_for_tilemap(name):
+	for tm in $TileMapList.get_children():
+		if tm.name == name:
+			return tm
+	var tm = $TileMap.duplicate()
+	tm.name = name
+	$TileMapList.add_child(tm)
+	return tm
+
 # Clears the tilemap and reassigns the tiles from the array the snakes contain, updates the position of camPos
 func redraw(snakes):
-	$TileMap.clear()
 	for snake in snakes:
-		set_snake(snake)
+		set_snake(snake, check_for_tilemap(snake.name))
 		if snake.name == followID:
 			get_node(camPos).set_position(tile_to_world(snake.get_head()))
 		#print($TileMap.get_used_cells())
@@ -48,7 +59,8 @@ func put_in_bounds(pos):
 	return vec
 
 # Assigns the tiles of one snake to the tilemap
-func set_snake(snake):
+func set_snake(snake, tilemap):
+	tilemap.clear()
 	var lastTile = nil_cell
 	var tile = nil_cell
 	var nextTile = nil_cell
@@ -58,10 +70,10 @@ func set_snake(snake):
 			nextTile = snake.tiles[i-1]
 		if i != snake.tiles.size()-1:
 			lastTile = snake.tiles[i+1]
-		set_tile(snake.idx, lastTile, tile, nextTile)
+		set_tile(snake.idx, lastTile, tile, nextTile, tilemap)
 
 # Assigns one tile to the tilemap based on the last and next tile
-func set_tile(idx, lastTile, tile, nextTile):
+func set_tile(idx, lastTile, tile, nextTile, tilemap):
 	var in_dir = Vector2.ZERO
 	var out_dir = Vector2.ZERO
 	var tileName = "Snk"
@@ -132,7 +144,7 @@ func set_tile(idx, lastTile, tile, nextTile):
 	if idx >= 0:
 		tileName += str(idx+1)
 	#print(tileName)
-	$TileMap.set_cell(tile.x, tile.y, $TileMap.tile_set.find_tile_by_name(tileName), flipx, flipy, transposed, Vector2.ZERO)
+	tilemap.set_cell(tile.x, tile.y, $TileMap.tile_set.find_tile_by_name(tileName), flipx, flipy, transposed, Vector2.ZERO)
 
 # this is supposed to save the tilemap, but does not yet work
 func save():

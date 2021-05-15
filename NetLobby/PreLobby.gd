@@ -17,10 +17,12 @@ func _ready():
 	reset()
 
 func host(port = 8080):
+	reset()
 	deactivate()
 	$Lobby.create_server(port)
 
 func join(ip = "127.0.0.1", p = 8080):
+	reset()
 	ipAddr = ip
 	port = p
 	activate()
@@ -32,19 +34,17 @@ func _on_Join_pressed():
 
 func _on_Lobby_backToMenu():
 	emit_signal("backToMenu")
-	reset()
 
 func spawn_player(id):
+	print("spawn_player: ", id, ", netID: ", $Lobby.netID)
 	var player = load("res://NetLobby/Player.tscn").instance()
 	player.name = str(id)
 	player.set_network_master(id)
-	
+	player.set_master(id == $Lobby.netID)
 	players.append(player)
-	
-	yield(get_tree(), "idle_frame")
-	player.set_master(player.is_network_master())
 
 func despawn_player(id):
+	print("despawn_player: ", id)
 	for player in players:
 		if player.name == str(id):
 			player.queue_free()
@@ -54,7 +54,6 @@ func _on_Lobby_lobbyStarting(isServer):
 
 func _on_Lobby_allReady():
 	emit_signal("startGame", players)
-	reset()
 
 func _on_Lobby_initGame():
 	emit_signal("initGame")

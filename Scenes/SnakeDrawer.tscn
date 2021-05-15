@@ -12,3 +12,5 @@ tile_set = ExtResource( 1 )
 cell_size = Vector2( 150, 150 )
 centered_textures = true
 format = 1
+
+[node name="TileMapList" type="Node2D" parent="."]
