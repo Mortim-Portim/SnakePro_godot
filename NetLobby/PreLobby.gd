@@ -36,7 +36,7 @@ func _on_Lobby_backToMenu():
 	emit_signal("backToMenu")
 
 func spawn_player(id):
-	print("spawn_player: ", id, ", netID: ", $Lobby.netID)
+	#print("spawn_player: ", id, ", netID: ", $Lobby.netID)
 	var player = load("res://NetLobby/Player.tscn").instance()
 	player.name = str(id)
 	player.set_network_master(id)
@@ -44,15 +44,18 @@ func spawn_player(id):
 	players.append(player)
 
 func despawn_player(id):
-	print("despawn_player: ", id)
+	#print("despawn_player: ", id)
 	for player in players:
-		if player.name == str(id):
+		if player == null:
+			players.remove(players.find(player))
+		elif player.name == str(id):
 			player.queue_free()
 
 func _on_Lobby_lobbyStarting(isServer):
 	$Lobby.set_visible(true)
 
 func _on_Lobby_allReady():
+	players.sort()
 	emit_signal("startGame", players)
 
 func _on_Lobby_initGame():

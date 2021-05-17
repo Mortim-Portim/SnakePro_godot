@@ -39,12 +39,11 @@ func check_for_tilemap(name):
 	return tm
 
 # Clears the tilemap and reassigns the tiles from the array the snakes contain, updates the position of camPos
-func redraw(snakes):
-	for snake in snakes:
-		set_snake(snake, check_for_tilemap(snake.name))
-		if snake.name == followID:
-			get_node(camPos).set_position(tile_to_world(snake.get_head()))
-		#print($TileMap.get_used_cells())
+func redraw(snake, id):
+	set_snake(snake, check_for_tilemap(id))
+	if id == followID:
+		get_node(camPos).set_position(tile_to_world(snake.get_head()))
+	#print($TileMap.get_used_cells())
 
 # Converts the a position in the tilemap to a global position
 func tile_to_world(pos):

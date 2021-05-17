@@ -122,7 +122,7 @@ func _on_Button_pressed():
 
 # adds a name label
 func addName(id, name):
-	print("addName: ", id, ", name: ", name)
+	#print("addName: ", id, ", name: ", name)
 	emit_signal("spawn_player", id)
 	var Name = $Names/inLobby.duplicate()
 	Name.name = "Label_"+str(id)

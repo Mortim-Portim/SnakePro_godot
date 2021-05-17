@@ -84,7 +84,7 @@ margin_bottom = 2016.0
 texture_normal = ExtResource( 6 )
 
 [node name="IpAddr" type="LineEdit" parent="."]
-margin_left = 973.0
+margin_left = 990.0
 margin_top = 172.0
 margin_right = 1504.0
 margin_bottom = 246.0
@@ -105,7 +105,7 @@ __meta__ = {
 [node name="Port" type="LineEdit" parent="."]
 margin_left = 1545.0
 margin_top = 172.0
-margin_right = 1857.0
+margin_right = 1757.0
 margin_bottom = 246.0
 focus_neighbour_left = NodePath("../IpAddr")
 custom_styles/focus = SubResource( 4 )

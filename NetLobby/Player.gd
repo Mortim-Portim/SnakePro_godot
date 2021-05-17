@@ -16,10 +16,10 @@ func update():
 	rpc("make_move")
 
 func set_master(isMaster):
-	print("set_master: ", isMaster)
+	#print("set_master: ", isMaster)
 	is_net_master = isMaster
 
-func _process(delta):
+func manual_process(delta):
 	if !is_net_master:
 		return
 	process_input()
@@ -49,19 +49,21 @@ func _on_network_peer_connected(id):
 		sync_self()
 
 func reset_snake(pos, middle):
-	$Snake.startPos = pos
+	$Snake.startPos = Vector2(pos.x, pos.y)
 	$Snake.startDir = $Snake.dir_to_point($Snake.startPos, middle)
 	$Snake.reset()
 
 func sync_self():
 	rpc("full_sync", $Snake.get_data())
 remote func full_sync(data):
+	#print("full_sync: ", get_name())
 	$Snake.set_data(data)
 	redraw_if_possible()
 remotesync func make_move():
+	#print("make_move: ", get_name())
 	$Snake.move()
 	redraw_if_possible()
 
 func redraw_if_possible():
 	if snakeDrawer != null:
-		snakeDrawer.redraw([get_node("Snake")])
+		snakeDrawer.redraw(get_node("Snake"), get_name())

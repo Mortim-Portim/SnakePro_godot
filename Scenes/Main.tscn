@@ -21,6 +21,7 @@ visible = false
 [connection signal="host" from="Menu" to="." method="_on_Menu_host"]
 [connection signal="join" from="Menu" to="." method="_on_Menu_join"]
 [connection signal="quit" from="Menu" to="." method="_on_Menu_quit"]
+[connection signal="backToMenu" from="InGame" to="." method="_on_InGame_backToMenu"]
 [connection signal="backToMenu" from="PreLobby" to="." method="_on_PreLobby_backToMenu"]
 [connection signal="initGame" from="PreLobby" to="." method="_on_PreLobby_initGame"]
 [connection signal="startGame" from="PreLobby" to="." method="_on_PreLobby_startGame"]

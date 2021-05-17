@@ -1,5 +1,7 @@
 extends Node2D
 
+signal backToMenu()
+
 export var TilesX = 32.0
 export var TilesY = 32.0
 export var ScreenW = 1920.0
@@ -39,5 +41,11 @@ func reset(pls):
 		$SnakeContainer.add_child(players[i])
 
 func _process(delta):
-	pass
+	for pl in players:
+		if pl == null:
+			players.remove(players.find(pl))
+			if players.size() == 0:
+				emit_signal("backToMenu")
+		else:
+			pl.manual_process(delta)
 	#$SnakeDrawer.redraw(snakes)

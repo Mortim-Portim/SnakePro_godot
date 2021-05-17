@@ -31,6 +31,7 @@ func set_data(data):
 	startPos = 		data[2]
 	startDir = 		data[3]
 	playerName = 	data[4]
+	#print("set_data: ", data[5])
 	tiles = 		data[5]
 	fett = 			data[6]
 	score = 		data[7]
@@ -39,7 +40,8 @@ func set_data(data):
 
 # Resets the snake at the beginning
 func _ready():
-	reset()
+	pass
+	#reset()
 
 # Resets the snake based on startLength, startPos, startDir
 func reset():
@@ -48,6 +50,7 @@ func reset():
 	currentDir = startDir
 	score = 1.0
 	nextDir = currentDir
+	#print("reset: ", startPos)
 
 # Changes the direction of the snake before the next movement
 func changeDir(dir):
@@ -66,6 +69,7 @@ func to_right():
 
 # Applies nextDir and Moves the snake one tile in that direction
 func move():
+	#print("move: ", tiles)
 	# Set new direction
 	currentDir = nextDir
 	# Add the new head in front of the old head
@@ -76,6 +80,7 @@ func move():
 	else:
 		# remove the last tile so that the length of the snake stays the same
 		tiles.pop_back()
+	#print("moved: ", tiles)
 
 # Returns the tile representing the head of the snake
 func get_head():

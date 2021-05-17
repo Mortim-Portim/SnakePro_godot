@@ -25,6 +25,11 @@ func _on_PreLobby_backToMenu():
 	$InGame.stop_game()
 	show_menu_only()
 
+func _on_InGame_backToMenu():
+	print("_on_InGame_backToMenu")
+	$InGame.stop_game()
+	show_menu_only()
+
 func _on_PreLobby_initGame():
 	print("_on_PreLobby_initGame")
 
