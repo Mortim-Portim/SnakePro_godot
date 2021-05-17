@@ -7,6 +7,7 @@ export (PackedScene) var snakeDrawer
 var time_since_last_sync = 0.0
 var time_since_last_update = 0.0
 var is_net_master = false
+var queued_for_deletion = false
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_on_network_peer_connected")
@@ -14,10 +15,6 @@ func _ready():
 
 func update():
 	rpc("make_move")
-
-func set_master(isMaster):
-	#print("set_master: ", isMaster)
-	is_net_master = isMaster
 
 func manual_process(delta):
 	if !is_net_master:
@@ -40,8 +37,11 @@ func process_input():
 	if Input.is_action_just_pressed("ui_right"):
 		$Snake.to_right()
 
-func set_speed(tps):
-	updatePeriod = 1.0/tps
+func queue_for_deletion():
+	queued_for_deletion = true
+
+func delete():
+	self.queue_free()
 
 func _on_network_peer_connected(id):
 	if is_network_master():
@@ -64,6 +64,13 @@ remotesync func make_move():
 	$Snake.move()
 	redraw_if_possible()
 
+func set_master(isMaster):
+	#print("set_master: ", isMaster)
+	is_net_master = isMaster
+
 func redraw_if_possible():
-	if snakeDrawer != null:
+	if is_instance_valid(snakeDrawer):
 		snakeDrawer.redraw(get_node("Snake"), get_name())
+
+func set_speed(tps):
+	updatePeriod = 1.0/tps

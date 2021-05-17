@@ -57,4 +57,5 @@ text = "Join"
 [connection signal="despawn_player" from="Lobby" to="." method="despawn_player"]
 [connection signal="initGame" from="Lobby" to="." method="_on_Lobby_initGame"]
 [connection signal="lobbyStarting" from="Lobby" to="." method="_on_Lobby_lobbyStarting"]
+[connection signal="onError" from="Lobby" to="." method="_on_Lobby_onError"]
 [connection signal="spawn_player" from="Lobby" to="." method="spawn_player"]

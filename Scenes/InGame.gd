@@ -10,7 +10,7 @@ var snakes = []
 var players = []
 
 func _ready():
-	pass
+	stop_game()
 
 func start_game():
 	set_process(true)
@@ -38,12 +38,15 @@ func reset(pls):
 		$ArenaOutline/Spawns.set_unit_offset(float(i)/float(pl_num))
 		players[i].reset_snake($SnakeDrawer.put_in_bounds($SnakeDrawer.world_to_tile($ArenaOutline/Spawns.get_position())), middle)
 		players[i].snakeDrawer = get_node("SnakeDrawer")
+		if players[i].is_net_master:
+			$SnakeDrawer.followID = players[i].name
 		$SnakeContainer.add_child(players[i])
 
 func _process(delta):
 	for pl in players:
-		if pl == null:
+		if pl.queued_for_deletion:
 			players.remove(players.find(pl))
+			pl.delete()
 			if players.size() == 0:
 				emit_signal("backToMenu")
 		else:

@@ -12,6 +12,8 @@ signal despawn_player(id)
 signal allReady()
 # Signals when the game should be loaded
 signal initGame()
+# Signals when an error occurs
+signal onError(err)
 
 var isServer = false
 # network ID, 1 = server, -1 = not assigned
@@ -51,7 +53,10 @@ func create_server(port = "8080"):
 	var peer = NetworkedMultiplayerENet.new()
 	var err = peer.create_server(int(port), 32)
 	if err != OK:
-		print("error while creating server: ", err)
+		print("error while creating server on port: ", port, " : ", err)
+		close_peer(peer)
+		reset_net()
+		emit_signal("onError", err)
 		return
 	get_tree().set_network_peer(peer)
 	accepting_new_player = true
@@ -67,6 +72,9 @@ func join_server(name, ip = "127.0.0.1", port = "8080"):
 	var err = peer.create_client(ip, int(port))
 	if err != OK:
 		print("error while joining server: ", err)
+		close_peer(peer)
+		reset_net()
+		emit_signal("onError", err)
 		return
 	get_tree().set_network_peer(peer)
 	accepting_new_player = true
@@ -98,11 +106,14 @@ func _on_connected_to_server():
 # called once disconnected from the server, resets this node
 func _on_server_disconnected():
 	#print("_on_server_disconnected")
-	emit_signal("backToMenu")
 	reset_net()
-	if get_tree().network_peer != null:
-		get_tree().network_peer.close_connection()
-		get_tree().set_network_peer(null)
+	close_peer(get_tree().network_peer)
+	emit_signal("backToMenu")
+
+func close_peer(peer):
+	if is_instance_valid(peer):
+		peer.close_connection()
+	get_tree().set_network_peer(null)
 
 # loads the game
 func load_game():
@@ -122,7 +133,7 @@ func _on_Button_pressed():
 
 # adds a name label
 func addName(id, name):
-	#print("addName: ", id, ", name: ", name)
+	print("addName: ", id, ", name: ", name)
 	emit_signal("spawn_player", id)
 	var Name = $Names/inLobby.duplicate()
 	Name.name = "Label_"+str(id)
@@ -132,7 +143,7 @@ func addName(id, name):
 
 # sets or adds a name label on each peer
 remotesync func setName(id, name):
-	#print("setName: ", id, ", name: ", name)
+	print("setName: ", id, ", name: ", name)
 	var found = false
 	for n in $Names.get_children():
 		if n.name == "Label_"+str(id):
@@ -144,6 +155,7 @@ remotesync func setName(id, name):
 
 # removes and despawns a player
 func remName(id):
+	print("remName: ", id)
 	emit_signal("despawn_player", id)
 	for n in $Names.get_children():
 		if n.name == "Label_"+str(id):
