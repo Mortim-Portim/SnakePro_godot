@@ -14,22 +14,24 @@ func _ready():
 	time_since_last_sync = 0.0
 
 func update():
-	rpc("make_move")
+	make_move()
 
 func manual_process(delta):
-	if !is_net_master:
-		return
-	process_input()
+	if is_net_master:
+		process_input()
 	
-	time_since_last_update += delta
-	if time_since_last_update >= updatePeriod:
-		time_since_last_update = 0.0
-		update()
+	if is_net_master:
+		time_since_last_update += delta
+		if time_since_last_update >= updatePeriod:
+			time_since_last_update = 0.0
+			update()
+			sync_self()
 	
-	time_since_last_sync += delta
-	if time_since_last_sync >= syncPeriod:
-		time_since_last_sync = 0.0
-		sync_self()
+	#if is_net_master:
+	#	time_since_last_sync += delta
+	#	if time_since_last_sync >= syncPeriod:
+	#		time_since_last_sync = 0.0
+	#		sync_self()
 
 func process_input():
 	if Input.is_action_just_pressed("ui_left"):
@@ -52,15 +54,16 @@ func reset_snake(pos, middle):
 	$Snake.startPos = Vector2(pos.x, pos.y)
 	$Snake.startDir = $Snake.dir_to_point($Snake.startPos, middle)
 	$Snake.reset()
+	print("reset_snake: ", get_name(), ", middle: ", middle, ", dir: ", $Snake.startDir)
 
 func sync_self():
 	rpc("full_sync", $Snake.get_data())
 remote func full_sync(data):
-	#print("full_sync: ", get_name())
+	print("full_sync: ", get_name())
 	$Snake.set_data(data)
 	redraw_if_possible()
 remotesync func make_move():
-	#print("make_move: ", get_name())
+	print("make_move: ", get_name())
 	$Snake.move()
 	redraw_if_possible()
 

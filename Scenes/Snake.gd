@@ -50,7 +50,7 @@ func reset():
 	currentDir = startDir
 	score = 1.0
 	nextDir = currentDir
-	#print("reset: ", startPos)
+	print("reset: ", startPos)
 
 # Changes the direction of the snake before the next movement
 func changeDir(dir):
@@ -69,7 +69,7 @@ func to_right():
 
 # Applies nextDir and Moves the snake one tile in that direction
 func move():
-	#print("move: ", tiles)
+	print("move: ", tiles)
 	# Set new direction
 	currentDir = nextDir
 	# Add the new head in front of the old head
@@ -80,7 +80,7 @@ func move():
 	else:
 		# remove the last tile so that the length of the snake stays the same
 		tiles.pop_back()
-	#print("moved: ", tiles)
+	print("moved: ", tiles)
 
 # Returns the tile representing the head of the snake
 func get_head():

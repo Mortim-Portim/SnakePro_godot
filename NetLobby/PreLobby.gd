@@ -63,8 +63,17 @@ func _on_Lobby_lobbyStarting(isServer):
 	$Lobby.set_visible(true)
 
 func _on_Lobby_allReady():
-	players.sort()
-	emit_signal("startGame", players)
+	var names = []
+	for pl in players:
+		names.append(pl.name)
+	names.sort()
+	var pls = []
+	for n in names:
+		for pl in players:
+			if pl.name == n:
+				pls.append(pl)
+				break
+	emit_signal("startGame", pls)
 
 func _on_Lobby_initGame():
 	emit_signal("initGame")
