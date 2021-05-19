@@ -21,7 +21,7 @@ func _ready():
 	time_since_last_sync = 0.0
 
 func update():
-	make_move()
+	rpc("make_move")
 
 func manual_process(delta):
 	if is_net_master:
@@ -32,13 +32,12 @@ func manual_process(delta):
 		if time_since_last_update >= updatePeriod:
 			time_since_last_update = 0.0
 			update()
-			sync_self()
 	
-	#if is_net_master:
-	#	time_since_last_sync += delta
-	#	if time_since_last_sync >= syncPeriod:
-	#		time_since_last_sync = 0.0
-	#		sync_self()
+	if is_net_master:
+		time_since_last_sync += delta
+		if time_since_last_sync >= syncPeriod:
+			time_since_last_sync = 0.0
+			sync_self()
 
 func process_input():
 	if Input.is_action_just_pressed("ui_left"):
