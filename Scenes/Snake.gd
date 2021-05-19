@@ -22,6 +22,16 @@ var currentDir = Vector2.DOWN
 # Set by changeDir, is applied before the next movement
 var nextDir = currentDir
 
+func get_only_changing():
+	return [tiles, fett, score, currentDir, nextDir]
+
+func set_only_changing(data):
+	tiles = 		data[0]
+	fett = 			data[1]
+	score = 		data[2]
+	currentDir = 	data[3]
+	nextDir = 		data[4]
+
 func get_data():
 	return [idx, startLength, startPos, startDir, playerName, tiles, fett, score, currentDir, nextDir]
 
@@ -54,18 +64,17 @@ func reset():
 
 # Changes the direction of the snake before the next movement
 func changeDir(dir):
-	if !nextDir.is_equal_approx(dir):
-		rpc("setNextDir", dir)
-
-remotesync func setNextDir(dir):
-	nextDir = dir
+	var does_change = !nextDir.is_equal_approx(dir)
+	if does_change:
+		nextDir = dir
+	return does_change
 
 # Changes the direction to the left of currentDir
 func to_left():
-	changeDir(currentDir.rotated(-PI/2.0).round())
+	return changeDir(currentDir.rotated(-PI/2.0).round())
 # Changes the direction to the right of currentDir
 func to_right():
-	changeDir(currentDir.rotated(PI/2.0).round())
+	return changeDir(currentDir.rotated(PI/2.0).round())
 
 # Applies nextDir and Moves the snake one tile in that direction
 func move():
