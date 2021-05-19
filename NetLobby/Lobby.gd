@@ -65,7 +65,7 @@ func create_server(port = "8080"):
 
 # joins a server and sets the player name
 func join_server(name, ip = "127.0.0.1", port = "8080"):
-	#print("join_server: ", "ip: ", ip, ", port: ", str(int(port)))
+	print("join_server: ", "ip: ", ip, ", port: ", str(int(port)))
 	isServer = false
 	playerName = name
 	var peer = NetworkedMultiplayerENet.new()
