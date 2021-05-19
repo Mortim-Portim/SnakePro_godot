@@ -12,7 +12,6 @@ script = ExtResource( 2 )
 
 [node name="InGame" parent="." instance=ExtResource( 5 )]
 visible = false
-TilesX = 32.0
 
 [node name="PreLobby" parent="." instance=ExtResource( 4 )]
 visible = false

@@ -29,9 +29,9 @@ func _on_PreLobby_initGame():
 	print("_on_PreLobby_initGame")
 
 
-func _on_PreLobby_startGame(pls):
+func _on_PreLobby_startGame(pls, map):
 	print("_on_PreLobby_startGame: ", pls)
-	$InGame.reset(pls)
+	$InGame.reset(pls, map)
 	$InGame.start_game()
 	show_ingame_only()
 

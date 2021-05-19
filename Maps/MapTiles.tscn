@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://r_Standard/Images/Food/Apple.png" type="Texture" id=1]
+
+[node name="MapTiles" type="Node2D"]
+
+[node name="Apple" type="Sprite" parent="."]
+texture = ExtResource( 1 )

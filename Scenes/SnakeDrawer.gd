@@ -25,6 +25,10 @@ func reset():
 		tm.queue_free()
 		$TileMapList.remove_child(tm)
 
+func transfer_tilemap_settings(tm):
+	var cellS = (ScreenW * RelativeTileWidth) / CellSize_o
+	tm.set_scale(Vector2(cellS,cellS))
+
 # Returns the bounds of the tilemap
 func get_bounds():
 	return Vector2(TilesX, TilesY)

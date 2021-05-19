@@ -3,7 +3,7 @@ extends Control
 # Signals when the player leaves the lobby
 signal backToMenu()
 # Signals when the game should be started
-signal startGame(pls)
+signal startGame(pls, map)
 # Signals when the game should be loaded
 signal initGame()
 
@@ -12,6 +12,7 @@ var ipAddr = ""
 var port = 0
 var active = false
 var players = []
+var map
 
 func _ready():
 	reset()
@@ -73,7 +74,7 @@ func _on_Lobby_allReady():
 			if pl.name == n:
 				pls.append(pl)
 				break
-	emit_signal("startGame", pls)
+	emit_signal("startGame", pls, map)
 
 func _on_Lobby_initGame():
 	emit_signal("initGame")
@@ -101,4 +102,5 @@ func reset_spawn():
 func reset():
 	deactivate()
 	reset_spawn()
+	map = load("res://Maps/Map1.tscn").instance()
 	$Lobby.set_visible(false)

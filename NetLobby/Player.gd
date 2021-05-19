@@ -9,6 +9,13 @@ var time_since_last_update = 0.0
 var is_net_master = false
 var queued_for_deletion = false
 
+var team_id = 0
+var pl_in_team_idx = 0.0
+var num_of_pl_in_team = 1.0
+
+func get_pl_in_team_percent():
+	return (pl_in_team_idx+0.5)/num_of_pl_in_team
+
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_on_network_peer_connected")
 	time_since_last_sync = 0.0
