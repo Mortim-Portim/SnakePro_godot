@@ -36,6 +36,9 @@ func reset(pls, map):
 	
 	world_map.set_settings_from_snakeDrawer(get_node("SnakeDrawer"))
 	
+	add_child(world_map)
+	move_child(world_map, 0)
+	
 	var middle = $SnakeDrawer.get_bounds()*0.5
 	var pl_num = players.size()
 	for i in range(pl_num):
@@ -53,5 +56,5 @@ func _process(delta):
 			if players.size() == 0:
 				emit_signal("backToMenu")
 		else:
-			pl.manual_process(delta)
+			pl.manual_process(delta, world_map)
 	#$SnakeDrawer.redraw(snakes)

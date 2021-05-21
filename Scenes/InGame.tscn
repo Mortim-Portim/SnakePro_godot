@@ -9,6 +9,7 @@
 script = ExtResource( 2 )
 
 [node name="SnakeDrawer" parent="." instance=ExtResource( 1 )]
+z_index = 1
 camPos = NodePath("../CamPos")
 
 [node name="CamPos" type="Position2D" parent="."]

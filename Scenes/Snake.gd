@@ -3,7 +3,7 @@ extends Node
 # Index of the character/hero and the index of the tiles to be used
 export var idx = 0
 # Start length of the snake in tiles
-export var startLength = 3.0
+export var startLength = 10.0
 # Start position of the snake
 export var startPos = Vector2.ZERO
 # Start direction of the snake
@@ -76,20 +76,29 @@ func to_left():
 func to_right():
 	return changeDir(currentDir.rotated(PI/2.0).round())
 
+func get_next_tile():
+	return get_head()+nextDir
+
+func shrink_by_one(dead_cause = "shrinking"):
+	if fett > 0:
+		fett -= 1
+	elif tiles.size() > 2:
+		tiles.pop_back()
+	else:
+		set_dead(dead_cause)
+
+func set_dead(cause):
+	print("Snake died, cause: ", cause)
+
 # Applies nextDir and Moves the snake one tile in that direction
 func move():
-	print("move: ", tiles)
+	#print("move: ", tiles)
 	# Set new direction
 	currentDir = nextDir
 	# Add the new head in front of the old head
-	tiles.push_front(get_head()+currentDir)
-	if fett > 0:
-		# Grows the snake by one tile, but reduces fett by one
-		fett -= 1
-	else:
-		# remove the last tile so that the length of the snake stays the same
-		tiles.pop_back()
-	print("moved: ", tiles)
+	tiles.push_front(get_next_tile())
+	shrink_by_one()
+	#print("moved: ", tiles)
 
 # Returns the tile representing the head of the snake
 func get_head():

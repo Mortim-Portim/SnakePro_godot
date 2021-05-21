@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://r_Standard/Images/Maps/Map1_stone.png" type="Texture" id=1]
+
+[node name="MapTileset" type="Node2D"]
+
+[node name="Stone_test" type="Sprite" parent="."]
+texture = ExtResource( 1 )

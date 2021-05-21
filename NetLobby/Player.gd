@@ -1,11 +1,13 @@
 extends Node2D
 
+export var shrinking_speed = 1.0
 export var syncPeriod = 1.0
-export var updatePeriod = 0.5
+export var updatePeriod = 0.25
 export (PackedScene) var snakeDrawer
 
 var time_since_last_sync = 0.0
 var time_since_last_update = 0.0
+var time_since_last_shrinking = 0.0
 var is_net_master = false
 var queued_for_deletion = false
 
@@ -14,6 +16,7 @@ var pl_in_team_idx = 0.0
 var num_of_pl_in_team = 1.0
 
 var sync_only_changing_on_next_update = false
+var shrinking_period = 0.0
 
 func get_pl_in_team_percent():
 	return (pl_in_team_idx+0.5)/num_of_pl_in_team
@@ -22,17 +25,28 @@ func _ready():
 	get_tree().connect("network_peer_connected", self, "_on_network_peer_connected")
 	time_since_last_sync = 0.0
 
-func update():
-	make_move()
+func update_all(delta, map):
+	if !map.collides($Snake.get_next_tile()):
+		set_shrinking_speed(0.0)
+		make_move()
+	else:
+		set_shrinking_speed(shrinking_speed)
+	redraw_if_possible()
 
-func manual_process(delta):
+func manual_process(delta, map):
 	if is_net_master:
 		process_input()
 	
 	time_since_last_update += delta
 	if time_since_last_update >= updatePeriod:
 		time_since_last_update = 0.0
-		update()
+		update_all(delta, map)
+	
+	if shrinking_period > 0.0001:
+		time_since_last_shrinking += delta
+		if time_since_last_shrinking >= shrinking_period:
+			time_since_last_shrinking = 0.0
+			$Snake.shrink_by_one()
 	
 	if is_net_master:
 		time_since_last_sync += delta
@@ -79,7 +93,6 @@ remote func full_sync(data):
 remotesync func make_move():
 	#print("make_move: ", get_name())
 	$Snake.move()
-	redraw_if_possible()
 remotesync func set_speed(tps):
 	updatePeriod = 1.0/tps
 remote func set_time_since_last_update(val):
@@ -90,6 +103,19 @@ func sync_only_changing():
 remote func only_changing_sync(data):
 	$Snake.set_only_changing(data)
 	redraw_if_possible()
+
+remote func sync_shrinking_period(sp):
+	shrinking_period = sp
+	time_since_last_shrinking = 0.0
+
+func set_shrinking_speed(speed):
+	var sp = 0.0
+	if speed != 0.0:
+		sp = 1.0/speed
+	if abs(sp-shrinking_period) > 0.00001:
+		shrinking_period = sp
+		if is_net_master:
+			rpc("sync_shrinking_period", sp)
 
 func set_master(isMaster):
 	#print("set_master: ", isMaster)
